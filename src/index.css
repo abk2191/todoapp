@@ -94,8 +94,8 @@ body {
   /* Prevent flash */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Typography */
@@ -161,6 +161,10 @@ p {
   transition: all 0.3s ease;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-primary);
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000;
 }
 
 .taskgroup:hover {
@@ -178,6 +182,11 @@ p {
   border: 1px solid var(--border-secondary);
   overflow: hidden;
   position: relative;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform;
 }
 
 /* Task Components */
@@ -190,6 +199,8 @@ p {
   margin-top: 12px;
   padding-bottom: 12px;
   transition: border-color 0.3s ease;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 .task-container:last-child {
@@ -276,6 +287,7 @@ p {
   font-weight: 500;
   padding: 0 16px;
   -webkit-tap-highlight-color: transparent !important;
+  position: relative;
 }
 
 .categories:hover {
@@ -293,7 +305,7 @@ p {
   gap: 12px;
 }
 
-/* Dropdown - FIXED POSITION */
+/* Dropdown - FIXED POSITION WITH MARGINS */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -302,7 +314,7 @@ p {
   background-color: var(--dropdown-bg);
   color: var(--text-primary);
   border-radius: 12px;
-  z-index: 100;
+  z-index: 1000;
   right: 0;
   top: 100%; /* Position directly below the categories button */
   margin-top: 8px; /* Add some spacing */
@@ -310,6 +322,10 @@ p {
   box-shadow: var(--elevated-shadow);
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  /* Ensure it's visible */
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
 }
 
 .dropdowndiv p {
@@ -404,15 +420,17 @@ p {
   justify-content: center;
   gap: 8px;
   -webkit-tap-highlight-color: transparent !important;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 .addnewtaskgroupbutton:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) translate3d(0, 0, 0);
   box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .addnewtaskgroupbutton:active {
-  transform: translateY(0);
+  transform: translateY(0) translate3d(0, 0, 0);
 }
 
 .createnewlistbtn, .collapseexpandbtn, .addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn {
@@ -427,18 +445,20 @@ p {
   border-radius: 8px;
   padding: 8px;
   -webkit-tap-highlight-color: transparent !important;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 .createnewlistbtn:hover, .collapseexpandbtn:hover, .addtaskbtn:hover, .expand-collapse-list-btn:hover {
   color: var(--accent-color);
   background-color: var(--bg-quaternary);
-  transform: scale(1.05);
+  transform: scale(1.05) translate3d(0, 0, 0);
 }
 
 .deletebtn:hover, .delete-task-group-btn:hover {
   color: var(--danger-color);
   background-color: var(--bg-quaternary);
-  transform: scale(1.05);
+  transform: scale(1.05) translate3d(0, 0, 0);
 }
 
 .createnewlistbtn {
@@ -504,15 +524,17 @@ input[type="checkbox"] {
   transition: all 0.2s ease;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent !important;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 input[type="checkbox"]:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) translate3d(0, 0, 0);
   border-color: var(--accent-color);
 }
 
 input[type="checkbox"]:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translate3d(0, 0, 0);
 }
 
 input[type="checkbox"]:checked {
@@ -625,16 +647,18 @@ input[type="checkbox"]:checked {
   min-height: 44px;
   max-width: 44px;
   max-height: 44px;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 .theme-toggle:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) translate3d(0, 0, 0);
   box-shadow: 0 4px 8px var(--shadow-color);
   border-color: var(--accent-color);
 }
 
 .theme-toggle:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translate3d(0, 0, 0);
 }
 
 /* Mobile Reorder Buttons - CENTERED */
@@ -661,16 +685,18 @@ input[type="checkbox"]:checked {
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent !important;
+  /* Prevent re-render flash */
+  transform: translate3d(0, 0, 0);
 }
 
 .reorder-btn:hover {
   color: var(--accent-color);
   background-color: var(--bg-quaternary);
-  transform: scale(1.1);
+  transform: scale(1.1) translate3d(0, 0, 0);
 }
 
 .reorder-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translate3d(0, 0, 0);
 }
 
 /* NEW: Ensure checkbox, task text, and delete button are perfectly aligned */
@@ -741,10 +767,27 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   user-select: none;
 }
 
+/* RE-RENDER FLASH FIX - Hardware acceleration for all interactive elements */
+.taskgroup, .list, .task-container, .task-container-2, 
+.checkbox-and-task-wrapper, .delete-button-and-time-div,
+.addnewtaskgroupbutton, .createnewlistbtn, .collapseexpandbtn, 
+.addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn,
+.theme-toggle, .reorder-btn, input[type="checkbox"] {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform;
+}
+
 /* Specific fix for iOS Safari */
 @supports (-webkit-touch-callout: none) {
   button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
     -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  .taskgroup, .list, .task-container {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -868,5 +911,11 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
     width: 44px;
     height: 44px;
     border-radius: 50% !important;
+  }
+  
+  .dropdowndiv {
+    width: 140px;
+    right: 0;
+    margin-top: 8px;
   }
 }
