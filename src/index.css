@@ -59,61 +59,43 @@
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 }
 
-/* Base Styles - FLASH FIX */
+/* COMPLETE FLASH FIX - Apply to ALL elements */
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent !important;
-  tap-highlight-color: transparent !important;
-}
-
-/* Prevent flash on touch - COMPREHENSIVE FIX */
-html, body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
   outline: none !important;
+  /* Hardware acceleration for everything */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
 }
 
 /* Allow text selection only for editable content */
 .editable-paragraph, [contenteditable="true"] {
-  -webkit-user-select: text;
-  user-select: text;
+  -webkit-user-select: text !important;
+  user-select: text !important;
 }
 
+/* Base body styles */
 body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-primary);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Prevent flash */
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  /* Prevent any flashing */
+  overflow-x: hidden;
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-h3 {
-  color: var(--text-primary);
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-p {
-  margin: 0;
-  color: var(--text-secondary);
+/* Remove all transitions that cause flash */
+body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
+  transition: none !important;
 }
 
 /* Layout Components */
@@ -127,7 +109,6 @@ p {
   background-color: var(--navbar-bg);
   padding: 20px;
   gap: 16px;
-  transition: background-color 0.3s ease;
   border-bottom: 1px solid var(--border-primary);
   box-shadow: 0 1px 3px var(--shadow-color);
 }
@@ -158,13 +139,8 @@ p {
   align-items: center;
   justify-content: center;
   background-color: var(--bg-secondary);
-  transition: all 0.3s ease;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-primary);
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000;
 }
 
 .taskgroup:hover {
@@ -178,15 +154,9 @@ p {
   margin: 16px 0;
   padding: 20px;
   background-color: var(--bg-tertiary);
-  transition: all 0.3s ease;
   border: 1px solid var(--border-secondary);
   overflow: hidden;
   position: relative;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000;
-  will-change: transform;
 }
 
 /* Task Components */
@@ -198,9 +168,6 @@ p {
   border-bottom: 1px solid var(--border-primary);
   margin-top: 12px;
   padding-bottom: 12px;
-  transition: border-color 0.3s ease;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
 }
 
 .task-container:last-child {
@@ -240,16 +207,10 @@ p {
   min-width: 120px;
   display: inline-block;
   color: var(--text-primary);
-  transition: all 0.2s ease;
   border-radius: 6px;
   flex: 1;
-  -webkit-user-select: text;
-  user-select: text;
   line-height: 1.5;
   font-size: 1rem;
-  /* Prevent flash on focus */
-  -webkit-tap-highlight-color: transparent !important;
-  tap-highlight-color: transparent !important;
 }
 
 .editable-paragraph.placeholder {
@@ -279,20 +240,13 @@ p {
   color: var(--text-primary);
   margin-bottom: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.875rem;
   font-weight: 500;
   padding: 0 16px;
-  -webkit-tap-highlight-color: transparent !important;
   position: relative;
-}
-
-.categories:hover {
-  background-color: var(--button-hover);
-  transform: translateY(-1px);
 }
 
 /* Top Div Layout */
@@ -305,7 +259,7 @@ p {
   gap: 12px;
 }
 
-/* Dropdown - FIXED POSITION WITH MARGINS */
+/* Dropdown - FIXED POSITION */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -316,16 +270,10 @@ p {
   border-radius: 12px;
   z-index: 1000;
   right: 0;
-  top: 100%; /* Position directly below the categories button */
-  margin-top: 8px; /* Add some spacing */
+  top: 45px; /* Fixed position below categories */
   padding: 8px;
   box-shadow: var(--elevated-shadow);
-  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  /* Ensure it's visible */
-  opacity: 1;
-  visibility: visible;
-  transform: translate3d(0, 0, 0);
 }
 
 .dropdowndiv p {
@@ -333,22 +281,20 @@ p {
   padding: 8px 12px;
   margin: 0;
   border-radius: 8px;
-  transition: background-color 0.2s ease;
   font-size: 0.875rem;
-  -webkit-tap-highlight-color: transparent !important;
 }
 
 .dropdowndiv p:hover {
   background-color: var(--bg-quaternary);
 }
 
-/* Due Date Section - ADDED MARGIN TOP */
+/* Due Date Section */
 .duedatediv {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px; /* Added margin top */
+  margin-top: 16px;
   gap: 12px;
 }
 
@@ -366,12 +312,6 @@ p {
   cursor: pointer;
   z-index: 1;
   color: var(--text-muted);
-  transition: color 0.2s ease;
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.calendar-icon:hover {
-  color: var(--accent-color);
 }
 
 .date-and-duedate {
@@ -386,7 +326,6 @@ p {
   display: inline-block;
   width: 24px;
   height: 24px;
-  -webkit-tap-highlight-color: transparent !important;
 }
 
 .calendar-icon-wrapper input[type="date"] {
@@ -398,12 +337,11 @@ p {
   z-index: 3;
   left: 0;
   top: 0;
-  -webkit-tap-highlight-color: transparent !important;
 }
 
-/* Buttons - FIXED HEIGHT FOR ADD TASK GROUP BUTTON */
+/* Buttons */
 .addnewtaskgroupbutton {
-  height: 50px; /* Fixed height */
+  height: 50px;
   width: 180px;
   border: none;
   border-radius: 12px;
@@ -413,24 +351,11 @@ p {
   color: white;
   font-weight: 600;
   font-size: 1rem;
-  transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  -webkit-tap-highlight-color: transparent !important;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-}
-
-.addnewtaskgroupbutton:hover {
-  transform: translateY(-2px) translate3d(0, 0, 0);
-  box-shadow: 0 4px 8px var(--shadow-color);
-}
-
-.addnewtaskgroupbutton:active {
-  transform: translateY(0) translate3d(0, 0, 0);
 }
 
 .createnewlistbtn, .collapseexpandbtn, .addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn {
@@ -438,27 +363,11 @@ p {
   border: none;
   cursor: pointer;
   color: var(--text-muted);
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
   padding: 8px;
-  -webkit-tap-highlight-color: transparent !important;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-}
-
-.createnewlistbtn:hover, .collapseexpandbtn:hover, .addtaskbtn:hover, .expand-collapse-list-btn:hover {
-  color: var(--accent-color);
-  background-color: var(--bg-quaternary);
-  transform: scale(1.05) translate3d(0, 0, 0);
-}
-
-.deletebtn:hover, .delete-task-group-btn:hover {
-  color: var(--danger-color);
-  background-color: var(--bg-quaternary);
-  transform: scale(1.05) translate3d(0, 0, 0);
 }
 
 .createnewlistbtn {
@@ -521,20 +430,7 @@ input[type="checkbox"] {
   outline: none;
   cursor: pointer;
   position: relative;
-  transition: all 0.2s ease;
   flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent !important;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-}
-
-input[type="checkbox"]:hover {
-  transform: scale(1.1) translate3d(0, 0, 0);
-  border-color: var(--accent-color);
-}
-
-input[type="checkbox"]:active {
-  transform: scale(0.95) translate3d(0, 0, 0);
 }
 
 input[type="checkbox"]:checked {
@@ -611,12 +507,10 @@ input[type="checkbox"]:checked {
   color: var(--text-muted);
   padding: 8px 12px;
   border-radius: 8px;
-  transition: all 0.2s ease;
   font-size: 0.875rem;
   min-height: 20px;
   outline: none;
   cursor: text;
-  -webkit-tap-highlight-color: transparent !important;
 }
 
 .captionsdiv p:focus {
@@ -624,11 +518,11 @@ input[type="checkbox"]:checked {
   color: var(--accent-color);
 }
 
-/* Theme Toggle - PERFECTLY ROUND FIX */
+/* Theme Toggle - PERFECTLY ROUND */
 .theme-toggle {
   background: var(--bg-secondary);
   border: 2px solid var(--border-secondary);
-  border-radius: 50% !important; /* Force perfect circle */
+  border-radius: 50%;
   width: 44px;
   height: 44px;
   cursor: pointer;
@@ -636,32 +530,16 @@ input[type="checkbox"]:checked {
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--shadow-color);
-  -webkit-tap-highlight-color: transparent !important;
-  /* Ensure perfect circle */
   padding: 0;
   line-height: 1;
-  /* Remove any potential inherited styles */
   min-width: 44px;
   min-height: 44px;
   max-width: 44px;
   max-height: 44px;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1) translate3d(0, 0, 0);
-  box-shadow: 0 4px 8px var(--shadow-color);
-  border-color: var(--accent-color);
-}
-
-.theme-toggle:active {
-  transform: scale(0.95) translate3d(0, 0, 0);
-}
-
-/* Mobile Reorder Buttons - CENTERED */
+/* Mobile Reorder Buttons */
 .mobile-reorder-buttons {
   display: flex;
   align-items: center;
@@ -680,50 +558,9 @@ input[type="checkbox"]:checked {
   font-size: 20px;
   border-radius: 6px;
   color: var(--text-muted);
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-tap-highlight-color: transparent !important;
-  /* Prevent re-render flash */
-  transform: translate3d(0, 0, 0);
-}
-
-.reorder-btn:hover {
-  color: var(--accent-color);
-  background-color: var(--bg-quaternary);
-  transform: scale(1.1) translate3d(0, 0, 0);
-}
-
-.reorder-btn:active {
-  transform: scale(0.95) translate3d(0, 0, 0);
-}
-
-/* NEW: Ensure checkbox, task text, and delete button are perfectly aligned */
-.checkbox-and-task-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.checkbox-div {
-  display: flex;
-  align-items: center;
-}
-
-.task-text {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-/* Ensure all elements in task-container-2 are vertically centered */
-.task-container-2 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
 }
 
 /* Scrollbar Styling */
@@ -742,59 +579,16 @@ body {
   -ms-overflow-style: none;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.taskgroup, .list {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* FLASH FIX - Comprehensive button and interactive element styles */
-button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
-  -webkit-tap-highlight-color: transparent !important;
-  tap-highlight-color: transparent !important;
-  outline: none !important;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* RE-RENDER FLASH FIX - Hardware acceleration for all interactive elements */
-.taskgroup, .list, .task-container, .task-container-2, 
-.checkbox-and-task-wrapper, .delete-button-and-time-div,
-.addnewtaskgroupbutton, .createnewlistbtn, .collapseexpandbtn, 
-.addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn,
-.theme-toggle, .reorder-btn, input[type="checkbox"] {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000;
-  will-change: transform;
-}
-
-/* Specific fix for iOS Safari */
-@supports (-webkit-touch-callout: none) {
-  button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
-    -webkit-tap-highlight-color: transparent !important;
-  }
-  
-  .taskgroup, .list, .task-container {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+/* ULTIMATE FLASH FIX - Disable ALL animations and transitions */
+* {
+  animation: none !important;
+  transition: none !important;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    height: 140px; /* Maintain height for add button */
+    height: 140px;
     padding: 16px;
   }
   
@@ -826,9 +620,7 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   .dropdowndiv {
     width: 140px;
     right: 0;
-    left: auto;
-    top: 100%;
-    margin-top: 8px;
+    top: 45px;
   }
   
   .calendar-and-duedate {
@@ -844,11 +636,10 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   
   .addnewtaskgroupbutton {
     width: 180px;
-    height: 50px; /* Maintain fixed height */
+    height: 50px;
     font-size: 1rem;
   }
   
-  /* Ensure proper alignment on mobile */
   .task-container-2 {
     align-items: center;
   }
@@ -858,13 +649,13 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   }
   
   .duedatediv {
-    margin-top: 16px; /* Maintain margin on mobile */
+    margin-top: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    height: 140px; /* Maintain height for add button */
+    height: 140px;
     padding: 12px;
   }
   
@@ -877,7 +668,7 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   }
   
   .task-container-2 {
-    flex-direction: row; /* Keep in row even on mobile */
+    flex-direction: row;
     align-items: center;
     gap: 8px;
   }
@@ -900,22 +691,22 @@ button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
   }
   
   .addnewtaskgroupbutton {
-    height: 50px; /* Maintain fixed height */
+    height: 50px;
   }
   
   .duedatediv {
-    margin-top: 16px; /* Maintain margin on mobile */
+    margin-top: 16px;
   }
   
   .theme-toggle {
     width: 44px;
     height: 44px;
-    border-radius: 50% !important;
+    border-radius: 50%;
   }
   
   .dropdowndiv {
     width: 140px;
     right: 0;
-    margin-top: 8px;
+    top: 45px;
   }
 }
