@@ -59,19 +59,26 @@
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 }
 
-/* Base Styles */
+/* Base Styles - FLASH FIX */
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
 }
 
-/* Prevent flash on touch */
-html, body {
+/* Prevent flash on touch - COMPREHENSIVE FIX */
+html, body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
+  -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
-  -webkit-text-size-adjust: none;
   -webkit-user-select: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  outline: none !important;
+}
+
+/* Allow text selection only for editable content */
+.editable-paragraph, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 body {
@@ -87,6 +94,8 @@ body {
   /* Prevent flash */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Typography */
@@ -168,6 +177,7 @@ p {
   transition: all 0.3s ease;
   border: 1px solid var(--border-secondary);
   overflow: hidden;
+  position: relative;
 }
 
 /* Task Components */
@@ -227,8 +237,8 @@ p {
   line-height: 1.5;
   font-size: 1rem;
   /* Prevent flash on focus */
-  -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
 }
 
 .editable-paragraph.placeholder {
@@ -265,7 +275,7 @@ p {
   font-size: 0.875rem;
   font-weight: 500;
   padding: 0 16px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .categories:hover {
@@ -283,7 +293,7 @@ p {
   gap: 12px;
 }
 
-/* Dropdown */
+/* Dropdown - FIXED POSITION */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -292,9 +302,10 @@ p {
   background-color: var(--dropdown-bg);
   color: var(--text-primary);
   border-radius: 12px;
-  z-index: 10;
+  z-index: 100;
   right: 0;
-  top: 40px;
+  top: 100%; /* Position directly below the categories button */
+  margin-top: 8px; /* Add some spacing */
   padding: 8px;
   box-shadow: var(--elevated-shadow);
   transition: all 0.3s ease;
@@ -308,20 +319,20 @@ p {
   border-radius: 8px;
   transition: background-color 0.2s ease;
   font-size: 0.875rem;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .dropdowndiv p:hover {
   background-color: var(--bg-quaternary);
 }
 
-/* Due Date Section */
+/* Due Date Section - ADDED MARGIN TOP */
 .duedatediv {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 16px; /* Added margin top */
   gap: 12px;
 }
 
@@ -340,7 +351,7 @@ p {
   z-index: 1;
   color: var(--text-muted);
   transition: color 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .calendar-icon:hover {
@@ -359,7 +370,7 @@ p {
   display: inline-block;
   width: 24px;
   height: 24px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .calendar-icon-wrapper input[type="date"] {
@@ -371,6 +382,7 @@ p {
   z-index: 3;
   left: 0;
   top: 0;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 /* Buttons - FIXED HEIGHT FOR ADD TASK GROUP BUTTON */
@@ -391,7 +403,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .addnewtaskgroupbutton:hover {
@@ -414,7 +426,7 @@ p {
   justify-content: center;
   border-radius: 8px;
   padding: 8px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .createnewlistbtn:hover, .collapseexpandbtn:hover, .addtaskbtn:hover, .expand-collapse-list-btn:hover {
@@ -491,7 +503,7 @@ input[type="checkbox"] {
   position: relative;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 input[type="checkbox"]:hover {
@@ -582,7 +594,7 @@ input[type="checkbox"]:checked {
   min-height: 20px;
   outline: none;
   cursor: text;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .captionsdiv p:focus {
@@ -590,11 +602,11 @@ input[type="checkbox"]:checked {
   color: var(--accent-color);
 }
 
-/* Theme Toggle - FIXED TO BE PERFECTLY ROUND */
+/* Theme Toggle - PERFECTLY ROUND FIX */
 .theme-toggle {
   background: var(--bg-secondary);
   border: 2px solid var(--border-secondary);
-  border-radius: 50%; /* Ensures perfect circle */
+  border-radius: 50% !important; /* Force perfect circle */
   width: 44px;
   height: 44px;
   cursor: pointer;
@@ -604,10 +616,15 @@ input[type="checkbox"]:checked {
   font-size: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--shadow-color);
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
   /* Ensure perfect circle */
   padding: 0;
   line-height: 1;
+  /* Remove any potential inherited styles */
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 44px;
+  max-height: 44px;
 }
 
 .theme-toggle:hover {
@@ -643,7 +660,7 @@ input[type="checkbox"]:checked {
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .reorder-btn:hover {
@@ -715,6 +732,22 @@ body {
   animation: fadeIn 0.3s ease-out;
 }
 
+/* FLASH FIX - Comprehensive button and interactive element styles */
+button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+  outline: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Specific fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  button, input, [contenteditable], .categories, .theme-toggle, .reorder-btn {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
@@ -751,6 +784,8 @@ body {
     width: 140px;
     right: 0;
     left: auto;
+    top: 100%;
+    margin-top: 8px;
   }
   
   .calendar-and-duedate {
@@ -777,6 +812,10 @@ body {
   
   .checkbox-and-task-wrapper {
     align-items: center;
+  }
+  
+  .duedatediv {
+    margin-top: 16px; /* Maintain margin on mobile */
   }
 }
 
@@ -819,5 +858,15 @@ body {
   
   .addnewtaskgroupbutton {
     height: 50px; /* Maintain fixed height */
+  }
+  
+  .duedatediv {
+    margin-top: 16px; /* Maintain margin on mobile */
+  }
+  
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50% !important;
   }
 }
