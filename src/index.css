@@ -262,7 +262,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   gap: 12px;
 }
 
-/* Dropdown - CLOSER TO CATEGORY with ULTRA HIGH Z-INDEX */
+/* Dropdown - ABOVE TASKS CONTAINER */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -271,15 +271,13 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--dropdown-bg);
   color: var(--text-primary);
   border-radius: 12px;
-  z-index: 2147483647 !important; /* Maximum z-index with !important */
+  z-index: 1000 !important; /* High z-index but not maximum */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center adjustment */
   top: 40px; /* Reduced margin-top - closer to category */
   padding: 8px;
   box-shadow: var(--elevated-shadow);
   backdrop-filter: blur(10px);
-  /* Ensure it appears above everything */
-  isolation: isolate;
 }
 
 .dropdowndiv p {
@@ -574,7 +572,7 @@ input[type="checkbox"]:checked {
   max-height: 44px;
 }
 
-/* Mobile Reorder Buttons - CENTERED with Time on RIGHT - FIXED ALIGNMENT */
+/* FIXED: Time and Move Buttons on SAME LINE */
 .mobile-reorder-buttons {
   display: flex;
   align-items: center; /* Ensure vertical alignment */
@@ -584,7 +582,6 @@ input[type="checkbox"]:checked {
   margin: 0;
   position: relative;
   flex: 1;
-  height: 100%; /* Take full height */
 }
 
 .reorder-btn {
@@ -601,19 +598,39 @@ input[type="checkbox"]:checked {
   justify-content: center;
 }
 
-/* Task Time - PROPERLY ALIGNED with buttons */
+/* FIXED: Time properly aligned with buttons */
 .time {
   font-size: 0.75rem !important; /* Smaller font */
   color: var(--text-muted) !important;
   white-space: nowrap;
   margin: 0;
-  position: absolute;
-  right: 0; /* Extreme right */
-  top: 50%;
-  transform: translateY(-50%);
   display: flex;
   align-items: center; /* Ensure vertical alignment */
-  height: 100%; /* Take full height */
+  height: auto;
+}
+
+/* NEW: Container for buttons and time - FIXED LAYOUT */
+.buttons-time-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.move-buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.time-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 80px;
 }
 
 /* Calendar and Due Date - NEW LAYOUT for buttons and time */
@@ -644,14 +661,10 @@ input[type="checkbox"]:checked {
   position: relative;
 }
 
-/* Container for move buttons and time */
-.buttons-and-time-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+/* Tasks Container - Ensure dropdown appears above it */
+.tasks-container {
   position: relative;
-  min-height: 30px;
+  z-index: 1; /* Lower than dropdown */
 }
 
 /* Scrollbar Styling */
@@ -674,12 +687,6 @@ body {
 * {
   animation: none !important;
   transition: none !important;
-}
-
-/* FORCE DROPDOWN TO APPEAR ABOVE EVERYTHING */
-.dropdowndiv {
-  z-index: 2147483647 !important;
-  position: fixed !important; /* Use fixed positioning to ensure it's above everything */
 }
 
 /* Responsive Design */
@@ -719,8 +726,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     top: 40px; /* Reduced margin-top */
-    z-index: 2147483647 !important; /* Maximum z-index with !important */
-    position: fixed !important;
+    z-index: 1000 !important; /* High z-index */
   }
   
   .calendar-and-duedate {
@@ -729,22 +735,20 @@ body {
     gap: 8px;
   }
   
-  .mobile-reorder-buttons {
-    justify-content: center;
-    width: 100%;
-    position: relative;
-    align-items: center;
-    height: 30px; /* Fixed height for alignment */
+  .buttons-time-container {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
   }
   
-  .time {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    height: 100%;
+  .move-buttons-container {
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .time-container {
+    justify-content: flex-start;
+    width: 100%;
   }
   
   .addnewtaskgroupbutton {
@@ -847,8 +851,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     top: 40px; /* Reduced margin-top */
-    z-index: 2147483647 !important; /* Maximum z-index */
-    position: fixed !important;
+    z-index: 1000 !important; /* High z-index */
   }
   
   .addtaskbtn {
@@ -861,17 +864,15 @@ body {
   }
   
   /* Adjust mobile layout for time and reorder buttons */
-  .mobile-reorder-buttons {
+  .buttons-time-container {
     gap: 8px;
-    align-items: center;
-    height: 30px;
+  }
+  
+  .move-buttons-container {
+    gap: 8px;
   }
   
   .time {
     font-size: 0.7rem !important;
-    right: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
   }
 }
