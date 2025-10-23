@@ -108,7 +108,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 160px; /* Increased height for add button */
+  height: 140px; /* Reduced height */
   width: 100%;
   background-color: var(--navbar-bg);
   padding: 20px;
@@ -263,7 +263,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   gap: 12px;
 }
 
-/* Dropdown - FIXED POSITION with high z-index */
+/* Dropdown - CENTERED with ULTRA HIGH Z-INDEX */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -272,10 +272,10 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--dropdown-bg);
   color: var(--text-primary);
   border-radius: 12px;
-  z-index: 9999; /* Very high z-index to appear on top */
-  right: 0;
-  top: 50px; /* Adjusted to be exactly below categories */
-  margin-top: 5px; /* Small gap */
+  z-index: 2147483647; /* Maximum z-index */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center adjustment */
+  top: 45px; /* Position below categories */
   padding: 8px;
   box-shadow: var(--elevated-shadow);
   backdrop-filter: blur(10px);
@@ -287,6 +287,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   border-radius: 8px;
   font-size: 0.875rem;
+  text-align: center;
 }
 
 .dropdowndiv p:hover {
@@ -344,10 +345,10 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   top: 0;
 }
 
-/* Buttons - FIXED HEIGHT FOR ADD TASK GROUP BUTTON */
+/* Buttons - REDUCED ADD TASK GROUP BUTTON */
 .addnewtaskgroupbutton {
-  height: 60px; /* Increased height */
-  width: 200px; /* Slightly wider */
+  height: 48px; /* Reduced by 20% from 60px */
+  width: 160px; /* Reduced width */
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -355,15 +356,14 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   font-family: "Inter", sans-serif;
   color: white;
   font-weight: 600;
-  font-size: 1.1rem; /* Slightly larger font */
+  font-size: 1rem; /* Normal font size */
   box-shadow: 0 2px 4px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  /* Ensure full height is visible */
-  min-height: 60px;
-  padding: 0 20px;
+  min-height: 48px;
+  padding: 0 16px;
 }
 
 .createnewlistbtn, .collapseexpandbtn, .addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn {
@@ -573,14 +573,16 @@ input[type="checkbox"]:checked {
   max-height: 44px;
 }
 
-/* Mobile Reorder Buttons with Time */
+/* Mobile Reorder Buttons - CENTERED with Time on RIGHT */
 .mobile-reorder-buttons {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Align to right */
-  gap: 12px;
+  justify-content: center; /* CENTERED buttons */
+  gap: 8px;
   width: auto;
   margin: 0;
+  position: relative;
+  flex: 1;
 }
 
 .reorder-btn {
@@ -597,15 +599,19 @@ input[type="checkbox"]:checked {
   justify-content: center;
 }
 
-/* Task Time - Smaller font and aligned with reorder buttons */
+/* Task Time - Smaller font and on RIGHT side */
 .time {
   font-size: 0.75rem !important; /* Smaller font */
   color: var(--text-muted) !important;
   white-space: nowrap;
   margin: 0;
+  position: absolute;
+  right: 0; /* Extreme right */
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-/* Calendar and Due Date - Adjust layout for time and reorder buttons */
+/* Calendar and Due Date - NEW LAYOUT for buttons and time */
 .calendar-and-duedate {
   position: relative;
   display: flex;
@@ -620,6 +626,27 @@ input[type="checkbox"]:checked {
   align-items: center;
   justify-content: flex-start;
   flex: 1;
+}
+
+/* Due Date Div - New layout structure */
+.duedatediv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 12px;
+  position: relative;
+}
+
+/* Container for move buttons and time */
+.buttons-and-time-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  min-height: 30px;
 }
 
 /* Scrollbar Styling */
@@ -647,7 +674,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    height: 160px; /* Increased height */
+    height: 140px; /* Reduced height */
     padding: 16px;
   }
   
@@ -678,9 +705,10 @@ body {
   
   .dropdowndiv {
     width: 140px;
-    right: 0;
-    top: 50px;
-    z-index: 9999;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 45px;
+    z-index: 2147483647; /* Maximum z-index */
   }
   
   .calendar-and-duedate {
@@ -690,14 +718,22 @@ body {
   }
   
   .mobile-reorder-buttons {
-    align-self: flex-end;
-    width: auto;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+  }
+  
+  .time {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   .addnewtaskgroupbutton {
-    width: 200px;
-    height: 60px; /* Maintain increased height */
-    font-size: 1.1rem;
+    width: 160px;
+    height: 48px; /* Reduced height */
+    font-size: 1rem;
   }
   
   .task-container-2 {
@@ -721,7 +757,7 @@ body {
 
 @media (max-width: 480px) {
   .navbar {
-    height: 160px; /* Increased height */
+    height: 140px; /* Reduced height */
     padding: 12px;
   }
   
@@ -757,8 +793,8 @@ body {
   }
   
   .addnewtaskgroupbutton {
-    height: 60px; /* Maintain increased height */
-    width: 180px;
+    height: 48px; /* Reduced height */
+    width: 140px;
   }
   
   .duedatediv {
@@ -773,9 +809,10 @@ body {
   
   .dropdowndiv {
     width: 140px;
-    right: 0;
-    top: 50px;
-    z-index: 9999;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 45px;
+    z-index: 2147483647; /* Maximum z-index */
   }
   
   .addtaskbtn {
@@ -794,5 +831,6 @@ body {
   
   .time {
     font-size: 0.7rem !important;
+    right: 0;
   }
 }
