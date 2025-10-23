@@ -27,6 +27,8 @@
   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   --elevated-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --add-task-bg: #4f46e5;
+  --add-task-bg-light: #e0e7ff;
 }
 
 [data-theme="light"] {
@@ -57,6 +59,8 @@
   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --elevated-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --add-task-bg: #e0e7ff;
+  --add-task-bg-light: #e0e7ff;
 }
 
 /* COMPLETE FLASH FIX - Apply to ALL elements */
@@ -104,7 +108,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 140px;
+  height: 160px; /* Increased height for add button */
   width: 100%;
   background-color: var(--navbar-bg);
   padding: 20px;
@@ -259,7 +263,7 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   gap: 12px;
 }
 
-/* Dropdown - FIXED POSITION */
+/* Dropdown - FIXED POSITION with high z-index */
 .dropdowndiv {
   position: absolute;
   height: auto;
@@ -268,9 +272,10 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--dropdown-bg);
   color: var(--text-primary);
   border-radius: 12px;
-  z-index: 1000;
+  z-index: 9999; /* Very high z-index to appear on top */
   right: 0;
-  top: 45px; /* Fixed position below categories */
+  top: 50px; /* Adjusted to be exactly below categories */
+  margin-top: 5px; /* Small gap */
   padding: 8px;
   box-shadow: var(--elevated-shadow);
   backdrop-filter: blur(10px);
@@ -339,10 +344,10 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   top: 0;
 }
 
-/* Buttons */
+/* Buttons - FIXED HEIGHT FOR ADD TASK GROUP BUTTON */
 .addnewtaskgroupbutton {
-  height: 50px;
-  width: 180px;
+  height: 60px; /* Increased height */
+  width: 200px; /* Slightly wider */
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -350,12 +355,15 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   font-family: "Inter", sans-serif;
   color: white;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem; /* Slightly larger font */
   box-shadow: 0 2px 4px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  /* Ensure full height is visible */
+  min-height: 60px;
+  padding: 0 20px;
 }
 
 .createnewlistbtn, .collapseexpandbtn, .addtaskbtn, .deletebtn, .delete-task-group-btn, .expand-collapse-list-btn {
@@ -382,10 +390,22 @@ body, div, button, input, p, h1, h2, h3, h4, h5, h6 {
   width: 36px;
 }
 
+/* ADD TASK BUTTON - With background and border radius */
 .addtaskbtn {
   font-size: 18px;
   height: 36px;
   width: 36px;
+  background-color: var(--add-task-bg) !important; /* Light violet background */
+  border-radius: 50% !important; /* Circular button */
+  color: var(--text-primary) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="light"] .addtaskbtn {
+  background-color: var(--add-task-bg-light) !important;
+  color: var(--accent-color) !important;
 }
 
 .deletebtn {
@@ -442,7 +462,7 @@ input[type="checkbox"]:checked {
   background-size: 14px;
 }
 
-/* Status Indicators */
+/* Status Indicators - CENTERED */
 .small {
   width: 16px;
   height: 16px;
@@ -459,10 +479,41 @@ input[type="checkbox"]:checked {
 .smalldiv {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* CENTERED */
   width: 100%;
   gap: 8px;
   margin-top: 8px;
+}
+
+/* Task Status Message - CENTERED */
+.task-status-message {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* CENTERED */
+  width: 100%;
+  margin: 8px 0;
+}
+
+.task-status-message p {
+  color: var(--warning-color);
+  font-size: 0.875rem;
+  text-align: center; /* CENTERED */
+  margin: 0;
+}
+
+/* Task Group Incomplete Count - CENTERED */
+.task-group-incomplete-count {
+  width: 100%;
+  margin: 8px 0;
+  display: flex;
+  justify-content: center; /* CENTERED */
+}
+
+.task-group-incomplete-count p {
+  color: var(--warning-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center; /* CENTERED */
 }
 
 /* Task Wrapper and Messages */
@@ -478,23 +529,6 @@ input[type="checkbox"]:checked {
   margin-top: 4px;
   margin-bottom: 8px;
   padding-right: 8px;
-}
-
-.task-group-incomplete-count {
-  width: 100%;
-  margin: 8px 0;
-}
-
-.task-group-incomplete-count p {
-  color: var(--warning-color);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.task-status-message p {
-  color: var(--warning-color);
-  font-size: 0.875rem;
-  margin: 8px 0;
 }
 
 /* Captions */
@@ -539,28 +573,53 @@ input[type="checkbox"]:checked {
   max-height: 44px;
 }
 
-/* Mobile Reorder Buttons */
+/* Mobile Reorder Buttons with Time */
 .mobile-reorder-buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: 100%;
-  margin: 8px 0;
+  justify-content: flex-end; /* Align to right */
+  gap: 12px;
+  width: auto;
+  margin: 0;
 }
 
 .reorder-btn {
   background: none;
   border: none;
-  height: 28px;
-  width: 28px;
+  height: 24px;
+  width: 24px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   border-radius: 6px;
   color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Task Time - Smaller font and aligned with reorder buttons */
+.time {
+  font-size: 0.75rem !important; /* Smaller font */
+  color: var(--text-muted) !important;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Calendar and Due Date - Adjust layout for time and reorder buttons */
+.calendar-and-duedate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.date-and-duedate {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
 }
 
 /* Scrollbar Styling */
@@ -588,7 +647,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    height: 140px;
+    height: 160px; /* Increased height */
     padding: 16px;
   }
   
@@ -620,7 +679,8 @@ body {
   .dropdowndiv {
     width: 140px;
     right: 0;
-    top: 45px;
+    top: 50px;
+    z-index: 9999;
   }
   
   .calendar-and-duedate {
@@ -630,14 +690,14 @@ body {
   }
   
   .mobile-reorder-buttons {
-    align-self: center;
-    width: 100%;
+    align-self: flex-end;
+    width: auto;
   }
   
   .addnewtaskgroupbutton {
-    width: 180px;
-    height: 50px;
-    font-size: 1rem;
+    width: 200px;
+    height: 60px; /* Maintain increased height */
+    font-size: 1.1rem;
   }
   
   .task-container-2 {
@@ -651,11 +711,17 @@ body {
   .duedatediv {
     margin-top: 16px;
   }
+  
+  /* Center status messages on mobile */
+  .smalldiv, .task-status-message, .task-group-incomplete-count {
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    height: 140px;
+    height: 160px; /* Increased height */
     padding: 12px;
   }
   
@@ -691,7 +757,8 @@ body {
   }
   
   .addnewtaskgroupbutton {
-    height: 50px;
+    height: 60px; /* Maintain increased height */
+    width: 180px;
   }
   
   .duedatediv {
@@ -707,6 +774,25 @@ body {
   .dropdowndiv {
     width: 140px;
     right: 0;
-    top: 45px;
+    top: 50px;
+    z-index: 9999;
+  }
+  
+  .addtaskbtn {
+    background-color: var(--add-task-bg) !important;
+    border-radius: 50% !important;
+  }
+  
+  [data-theme="light"] .addtaskbtn {
+    background-color: var(--add-task-bg-light) !important;
+  }
+  
+  /* Adjust mobile layout for time and reorder buttons */
+  .mobile-reorder-buttons {
+    gap: 8px;
+  }
+  
+  .time {
+    font-size: 0.7rem !important;
   }
 }
